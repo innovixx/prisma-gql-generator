@@ -19,7 +19,7 @@ importers:
         version: 7.4.2(typescript@5.9.3)
     devDependencies:
       '@innovixx/eslint-config':
-        specifier: ^3.0.10
+        specifier: ^3.0.11
         version: 3.0.11(eslint@9.39.4(jiti@2.6.1))(ts-api-utils@2.4.0(typescript@5.9.3))
       prisma:
         specifier: 7.4.2
@@ -39,9 +39,6 @@ importers:
       dotenv:
         specifier: ^17.3.1
         version: 17.3.1
-      prisma-gql-generator:
-        specifier: workspace:*
-        version: link:..
     devDependencies:
       prisma:
         specifier: 7.4.2
@@ -345,7 +342,7 @@ packages:
     engines: {node: '>=18.18'}
 
   '@innovixx/eslint-config@3.0.11':
-    resolution: {integrity: sha512-RyPXmVM3UvwpLAHNr69PAST2t7XMKbkXW4TrR6T7Dhx5SlcGDmhJTN1rLSODvaz8zEPNu8QkD/gcnwS1WPmHUQ==, tarball: https://npm.pkg.github.com/download/@innovixx/eslint-config/3.0.11/752f662d7e9533dc51180572fd4cb1f9352851b0}
+    resolution: {integrity: sha512-RyPXmVM3UvwpLAHNr69PAST2t7XMKbkXW4TrR6T7Dhx5SlcGDmhJTN1rLSODvaz8zEPNu8QkD/gcnwS1WPmHUQ==}
     peerDependencies:
       eslint: ^9.26.0
 

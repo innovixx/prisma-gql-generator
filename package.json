@@ -19,7 +19,7 @@
     "@prisma/internals": "^7.4.2"
   },
   "devDependencies": {
-    "@innovixx/eslint-config": "^3.0.10",
+    "@innovixx/eslint-config": "^3.0.11",
     "prisma": "7.4.2",
     "tsx": "^4.19.1",
     "typescript": "^5.7.3"
