@@ -1,0 +1,24 @@
+{
+  "name": "prisma-generator-boilerplate",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "type": "module",
+  "author": "Innovixx <info@innovixx.co.uk>",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsc",
+    "lint": "eslint ./src/**/*.{js,jsx,ts,tsx}"
+  },
+  "dependencies": {
+    "@prisma/client": "7.4.2",
+    "@prisma/generator-helper": "7.4.2",
+    "@prisma/internals": "^7.4.2"
+  },
+  "devDependencies": {
+    "@innovixx/eslint-config": "^3.0.10",
+    "prisma": "7.4.2",
+    "tsx": "^4.19.1",
+    "typescript": "^5.7.3"
+  }
+}

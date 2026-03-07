@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ../..:/workspaces:cached
+      - ~/.ssh:/home/vscode/.ssh:cached
+      - ~/.npmrc:/home/vscode/.npmrc:cached
+    command: sleep infinity
+    working_dir: /workspaces/prisma-generator-boilerplate
+
+  database:
+    image: postgres:16
+    restart: unless-stopped
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    network_mode: service:server
+
+volumes:
+  postgres-data:
