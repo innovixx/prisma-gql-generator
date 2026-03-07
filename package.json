@@ -5,6 +5,9 @@
   "type": "module",
   "author": "Innovixx <info@innovixx.co.uk>",
   "license": "UNLICENSED",
+  "bin": {
+    "prisma-gql-generator": "dist/bin/index.js"
+  },
   "scripts": {
     "dev": "tsx src/index.ts",
     "build": "tsc",

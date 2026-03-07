@@ -9,8 +9,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@prisma/client": "7.4.2",
-    "dotenv": "^17.3.1",
-    "prisma-gql-generator": "workspace:*"
+    "dotenv": "^17.3.1"
   },
   "devDependencies": {
     "prisma": "7.4.2",

@@ -1,5 +1,5 @@
-generator prisma_generator_boilerplate {
-  provider = "prisma-gql-generator"
+generator prisma_gql_generator {
+  provider = "cd .. && npx prisma-gql-generator"
   output   = "../types"
 }
 
