@@ -1,5 +1,5 @@
 {
-	"name": "prisma-generator-boilerplate",
+	"name": "prisma-gql-generator",
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "server",
 	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",

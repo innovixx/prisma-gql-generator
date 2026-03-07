@@ -10,7 +10,7 @@ services:
       - ~/.ssh:/home/vscode/.ssh:cached
       - ~/.npmrc:/home/vscode/.npmrc:cached
     command: sleep infinity
-    working_dir: /workspaces/prisma-generator-boilerplate
+    working_dir: /workspaces/prisma-gql-generator
 
   database:
     image: postgres:16

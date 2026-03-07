@@ -39,7 +39,7 @@ importers:
       dotenv:
         specifier: ^17.3.1
         version: 17.3.1
-      prisma-generator-boilerplate:
+      prisma-gql-generator:
         specifier: workspace:*
         version: link:..
     devDependencies:
