@@ -1,12 +1,12 @@
 {
-  "name": "prisma-gql-generator",
+  "name": "@innovixx/prisma-gql-generator",
   "version": "0.0.0",
   "main": "dist/index.js",
   "type": "module",
   "author": "Innovixx <info@innovixx.co.uk>",
   "license": "UNLICENSED",
   "bin": {
-    "prisma-gql-generator": "dist/bin/index.js"
+    "@innovixx/prisma-gql-generator": "dist/bin/index.js"
   },
   "scripts": {
     "dev": "tsx src/index.ts",

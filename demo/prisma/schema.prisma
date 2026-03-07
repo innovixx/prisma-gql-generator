@@ -1,5 +1,5 @@
 generator prisma_gql_generator {
-  provider = "cd .. && npx prisma-gql-generator"
+  provider = "cd .. && npx @innovixx/prisma-gql-generator"
   output   = "../types"
 }
 

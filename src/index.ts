@@ -47,11 +47,11 @@ generatorHandler({
 		return {
 			version: pkg.version,
 			defaultOutput: '../generated',
-			prettyName: 'prisma-gql-generator',
+			prettyName: '@innovixx/prisma-gql-generator',
 		};
 	},
 	async onGenerate(options: GeneratorOptions) {
-		logger.info('prisma-gql-generator:Generating GraphQL schema...');
+		logger.info('@innovixx/prisma-gql-generator:Generating GraphQL schema...');
 
 		const models = options.dmmf.datamodel.models.map((model) => ({
 			name: model.name,
@@ -75,6 +75,6 @@ generatorHandler({
 		fs.mkdirSync(path.dirname(graphqlPath), { recursive: true });
 		fs.writeFileSync(graphqlPath, graphqlSchema);
 
-		logger.info(`prisma-gql-generator:Generated ${graphqlPath}`);
+		logger.info(`@innovixx/prisma-gql-generator:Generated ${graphqlPath}`);
 	},
 });
