@@ -3,6 +3,7 @@ import internals from '@prisma/internals';
 import path from 'path';
 import fs from 'fs';
 import pkg from '../package.json' with { type: "json" };
+import { generateJsonTypeDefs } from './utils/prismaTypedJson/index.js';
 
 const { generatorHandler } = generatorHelper;
 const { logger } = internals;
@@ -68,7 +69,21 @@ generatorHandler({
 			values: e.values.map((v) => v.name),
 		}));
 
-		const graphqlSchema = prismaToGraphQL(models, enums);
+		const schemaParts = [prismaToGraphQL(models, enums)];
+
+		const typedJsonGenerator = options.otherGenerators.find(
+			(g) => g.provider.value?.includes('prisma-typed-json-generator'),
+		);
+
+		if (typedJsonGenerator) {
+			const schemaContent = await fs.promises.readFile(options.generator.sourceFilePath, 'utf-8');
+			const jsonTypeDefs = generateJsonTypeDefs(schemaContent);
+			if (jsonTypeDefs) {
+				schemaParts.push(jsonTypeDefs);
+			}
+		}
+
+		const graphqlSchema = schemaParts.filter(Boolean).join('\n\n');
 
 		const outputDir = options.generator.output?.value || './generated';
 		const graphqlPath = path.join(outputDir, 'index.graphql');
