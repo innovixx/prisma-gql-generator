@@ -30,6 +30,21 @@ function extractCommentedTypes(schemaContent: string): Record<string, Record<str
 	return typeObjects;
 }
 
+export function extractJsonTypeAnnotations(schemaContent: string): Record<string, string> {
+	const result: Record<string, string> = {};
+	const modelRegex = /model\s+([A-Za-z0-9_]+)\s*\{([\s\S]*?)\}/g;
+	let modelMatch;
+	while ((modelMatch = modelRegex.exec(schemaContent)) !== null) {
+		const modelName = modelMatch[1];
+		const body = modelMatch[2];
+		for (const line of body.split('\n')) {
+			const fieldMatch = /^\s*([A-Za-z0-9_]+)\s+Json.*@type\(([^)]+)\)/.exec(line);
+			if (fieldMatch) result[`${modelName}.${fieldMatch[1]}`] = fieldMatch[2];
+		}
+	}
+	return result;
+}
+
 export function generateJsonTypeDefs(schemaContent: string): string {
 	const typeObjects = extractCommentedTypes(schemaContent);
 	return Object.entries(typeObjects)

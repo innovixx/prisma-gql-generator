@@ -3,7 +3,7 @@ import internals from '@prisma/internals';
 import path from 'path';
 import fs from 'fs';
 import pkg from '../package.json' with { type: "json" };
-import { generateJsonTypeDefs } from './utils/prismaTypedJson/index.js';
+import { generateJsonTypeDefs, extractJsonTypeAnnotations } from './utils/prismaTypedJson/index.js';
 
 const { generatorHandler } = generatorHelper;
 const { logger } = internals;
@@ -17,7 +17,7 @@ const PRISMA_TYPE_MAP: Record<string, string> = {
 	Json: 'JSON',
 };
 
-function prismaToGraphQL(models: any[], enums: any[]): string {
+function prismaToGraphQL(models: any[], enums: any[], jsonTypeOverrides: Record<string, string> = {}): string {
 	const enumDefs = enums
 		.map((e) => {
 			const values = e.values.map((v: string) => `  ${v}`).join('\n');
@@ -29,10 +29,20 @@ function prismaToGraphQL(models: any[], enums: any[]): string {
 		.map((model) => {
 			const fields = model.fields
 				.map((field: any) => {
-					const gqlType = PRISMA_TYPE_MAP[field.type] || field.type;
-					const typeStr = field.isList
-						? `[${gqlType}${field.isRequired ? '!' : ''}]`
-						: `${gqlType}${field.isRequired ? '!' : ''}`;
+					const override = jsonTypeOverrides[`${model.name}.${field.name}`];
+					let typeStr: string;
+					if (field.type === 'Json' && override) {
+						const isList = override.endsWith('[]');
+						const baseType = override.replace(/\[\]$/, '').replace(/\?$/, '');
+						typeStr = isList
+							? `[${baseType}!]${field.isRequired ? '!' : ''}`
+							: `${baseType}${field.isRequired ? '!' : ''}`;
+					} else {
+						const gqlType = PRISMA_TYPE_MAP[field.type] || field.type;
+						typeStr = field.isList
+							? `[${gqlType}${field.isRequired ? '!' : ''}]`
+							: `${gqlType}${field.isRequired ? '!' : ''}`;
+					}
 					return `  ${field.name}: ${typeStr}`;
 				})
 				.join('\n');
@@ -69,19 +79,21 @@ generatorHandler({
 			values: e.values.map((v) => v.name),
 		}));
 
-		const schemaParts = [prismaToGraphQL(models, enums)];
-
 		const typedJsonGenerator = options.otherGenerators.find(
 			(g) => g.provider.value?.includes('prisma-typed-json-generator'),
 		);
 
+		let jsonTypeOverrides: Record<string, string> = {};
+		const schemaParts: string[] = [];
+
 		if (typedJsonGenerator) {
 			const schemaContent = await fs.promises.readFile(options.generator.sourceFilePath, 'utf-8');
+			jsonTypeOverrides = extractJsonTypeAnnotations(schemaContent);
 			const jsonTypeDefs = generateJsonTypeDefs(schemaContent);
-			if (jsonTypeDefs) {
-				schemaParts.push(jsonTypeDefs);
-			}
+			if (jsonTypeDefs) schemaParts.push(jsonTypeDefs);
 		}
+
+		schemaParts.unshift(prismaToGraphQL(models, enums, jsonTypeOverrides));
 
 		const graphqlSchema = schemaParts.filter(Boolean).join('\n\n');
 
