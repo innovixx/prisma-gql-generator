@@ -5,6 +5,9 @@
   "type": "module",
   "author": "Innovixx <info@innovixx.co.uk>",
   "license": "MIT",
+  "repository": {
+    "url": "https://github.com/innovixx/prisma-gql-generator"
+  },
   "bin": {
     "@innovixx/prisma-gql-generator": "dist/bin/index.js"
   },
