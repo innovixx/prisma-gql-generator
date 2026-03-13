@@ -61,7 +61,19 @@ export function generateJsonTypeDefs(schemaContent: string): string {
 					return `  ${fieldName}: ${typeStr}`;
 				})
 				.join('\n');
-			return `type ${typeName} {\n${fieldDefs}\n}`;
+			const inputFieldDefs = Object.entries(fields)
+				.map(([fieldName, prismaType]) => {
+					const isList = prismaType.endsWith('[]');
+					const isNullable = prismaType.endsWith('?');
+					const baseType = prismaType.replace(/\[\]$/, '').replace(/\?$/, '');
+					const gqlBase = GQL_TYPE_MAP[baseType] ?? `${baseType}Input`;
+					const typeStr = isList
+						? `[${gqlBase}!]${isNullable ? '' : '!'}`
+						: `${gqlBase}${isNullable ? '' : '!'}`;
+					return `  ${fieldName}: ${typeStr}`;
+				})
+				.join('\n');
+			return `type ${typeName} {\n${fieldDefs}\n}\n\ninput ${typeName}Input {\n${inputFieldDefs}\n}`;
 		})
 		.join('\n\n');
 }
