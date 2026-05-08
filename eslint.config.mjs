@@ -7,4 +7,12 @@ export default [
 	{
 		files: ['**/*.{js,jsx,ts,tsx}'],
 	},
+	{
+		files: ['eslint.config.mjs'],
+		languageOptions: {
+			parserOptions: {
+				project: null,
+			},
+		},
+	},
 ];
