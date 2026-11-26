@@ -11,6 +11,7 @@ const { logger } = internals;
 const PRISMA_TYPE_MAP: Record<string, string> = {
 	String: 'String',
 	Int: 'Int',
+	BigInt: 'Int',
 	Boolean: 'Boolean',
 	Float: 'Float',
 	DateTime: 'Date',
